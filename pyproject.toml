@@ -1,0 +1,35 @@
+[project]
+name = "agents"
+version = "0.1.0"
+description = "Skills, instructions and tool-specific config for AI coding agents"
+readme = "README.md"
+requires-python = ">=3.12"
+keywords = ["AI", "agents", "LLM"]
+license = { file = "LICENSE" }
+dependencies = []
+
+[project.urls]
+Source = "https://github.com/paddy74/agents/"
+
+[dependency-groups]
+dev = ["basedpyright>=1.35.0", "prek>=0.2.19", "pytest>=9.0.1", "ruff>=0.14.8"]
+
+[tool.basedpyright]
+typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+pythonPlatform = "All"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+ignore = ["E203", "E501"]
+select = ["C", "E", "F", "I", "W", "B"]
+extend-select = ["UP"] # pyupgrade
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
