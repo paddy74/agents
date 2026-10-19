@@ -1,6 +1,6 @@
 # Agent config
 
-[![License](https://img.shields.io/github/license/OWNER/REPO)](LICENSE)
+[![License](https://img.shields.io/github/license/paddy74/agents)](LICENSE)
 
 Skills, instructions and tool-specific configuration for the AI coding agents I use, kept in one place so the portable parts are written once and shared.
 
