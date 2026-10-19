@@ -1,5 +1,5 @@
 ---
-as_of: 2026-10-17
+as_of: 2026-10-19
 sources:
   skills: https://code.claude.com/docs/en/skills
   sbp: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices

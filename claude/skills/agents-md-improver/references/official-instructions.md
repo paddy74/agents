@@ -1,5 +1,5 @@
 ---
-as_of: 2026-10-17
+as_of: 2026-10-19
 sources:
   mem: https://code.claude.com/docs/en/memory
   bp: https://code.claude.com/docs/en/best-practices
@@ -16,7 +16,7 @@ sources:
 
 ## What belongs
 - Facts needed every session: commands, conventions, "always do X" rules; layout only when it can't be derived from the code. [mem-when-to-add]
-- Add an entry when the agent repeats a mistake, a review catches missing context, the same correction is typed twice, or a new teammate would need it. [mem-when-to-add]
+- Add an entry when the agent makes the same mistake a second time, a review catches missing context, the same correction is retyped in a later session, or a new teammate would need it. [mem-when-to-add]
 - Include: commands the agent can't guess; style rules that differ from defaults; testing instructions and preferred runners; repo etiquette (branches, PR conventions); project-specific architectural decisions; environment quirks (required env vars); non-obvious gotchas. [bp-write-effective]
 - Exclude: anything derivable from the code; standard language conventions; detailed API docs (link instead); frequently changing info; long explanations or tutorials; file-by-file descriptions; self-evident advice ("write clean code"). [bp-write-effective]
 - `/doctor` (Claude Code) proposes cuts for derivable content (directory layouts, dependency lists, architecture overviews) and keeps pitfalls, rationale and conventions that differ from tool defaults. [mem-too-large]

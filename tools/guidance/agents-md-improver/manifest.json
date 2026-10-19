@@ -1,6 +1,6 @@
 {
   "max_age_days": 30,
-  "last_checked": "2026-10-17",
+  "last_checked": "2026-10-19",
   "references_dir": "claude/skills/agents-md-improver/references",
   "sources": {
     "mem": "https://code.claude.com/docs/en/memory",
