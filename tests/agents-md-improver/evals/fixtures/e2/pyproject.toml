@@ -1,0 +1,23 @@
+[project]
+name = "ledgerly"
+version = "0.3.0"
+requires-python = ">=3.12"
+dependencies = ["rich>=13"]
+
+[project.scripts]
+ledgerly = "ledgerly.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6", "basedpyright>=1.20"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.basedpyright]
+typeCheckingMode = "strict"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

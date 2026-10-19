@@ -1,0 +1,128 @@
+# Keeps agents-md-improver's condensed official guidance current.
+# Changed docs -> Claude edits official-*.md -> tests -> PR on bot/guidance-refresh.
+# Changed built-ins (watch entries) -> one issue labelled guidance-watch.
+name: guidance
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: guidance
+
+env:
+  MANIFEST: tools/guidance/agents-md-improver/manifest.json
+  REFERENCES: claude/skills/agents-md-improver/references
+  SKILL: claude/skills/agents-md-improver
+  BRANCH: bot/guidance-refresh
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - run: uv sync --locked
+
+      - name: Check sources
+        id: check
+        run: |
+          set +e
+          uv run python tools/check_guidance.py --manifest "$MANIFEST" > result.json
+          code=$?
+          set -e
+          cat result.json
+          case $code in 0|10|11) ;; *) echo "::error::check_guidance.py exited $code"; exit 1 ;; esac
+          max=$(jq .max_age_days "$MANIFEST")
+          {
+            echo "code=$code"
+            echo "watch=$(jq -r '.watch_changed | join(" ")' result.json)"
+            echo "stale=$(jq -r --argjson max "$max" '.age_days >= $max' result.json)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Report changed built-ins
+        if: steps.check.outputs.watch != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WATCH: ${{ steps.check.outputs.watch }}
+        run: |
+          body="Changed watch entries: \`$WATCH\`.
+
+          Re-check the overlap (docs/specs/agents-md-improver.md §2, \"Re-checking the split\"), then run:
+
+          \`\`\`sh
+          uv run python tools/check_guidance.py --manifest $MANIFEST --accept-watch $WATCH
+          \`\`\`"
+          gh label create guidance-watch --color FBCA04 --force > /dev/null
+          number=$(gh issue list --label guidance-watch --state open --json number -q '.[0].number')
+          if [ -n "$number" ]; then
+            gh issue edit "$number" --body "$body"
+          else
+            gh issue create --title "agents-md-improver: built-in changed" --label guidance-watch --body "$body"
+          fi
+
+      - name: Update guidance
+        if: steps.check.outputs.code != '0'
+        uses: anthropics/claude-code-action@f27be6b65a4652f08a2ba3cff79114829b588967 # v1.0.252
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: |
+            Follow tools/guidance/refresh-prompt.md.
+            Check result: result.json
+            References directory: ${{ env.REFERENCES }}
+            Manifest: ${{ env.MANIFEST }}
+          claude_args: --model claude-haiku-5-5 --allowedTools Read,Edit,Write,WebFetch
+
+      - name: Accept and verify
+        if: steps.check.outputs.code != '0' || steps.check.outputs.stale == 'true'
+        run: |
+          # Re-check so pending results use any headings Claude fixed; then store them.
+          uv run python tools/check_guidance.py --manifest "$MANIFEST" > /dev/null || true
+          uv run python tools/check_guidance.py --manifest "$MANIFEST" --accept
+          uv run ruff check .
+          uv run ruff format --check .
+          uv run basedpyright
+          uv run pytest
+          uv run python tools/lint_skill.py "$SKILL"
+
+      - name: Open pull request
+        if: steps.check.outputs.code != '0' || steps.check.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODE: ${{ steps.check.outputs.code }}
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add "$REFERENCES" tools/guidance
+          if git diff --cached --quiet; then exit 0; fi
+          if [ "$CODE" = 0 ]; then
+            title="chore(agents-md-improver): confirm guidance current"
+            body="No tracked section changed. Moves \`last_checked\` and \`as_of\` to today."
+          else
+            title="docs(agents-md-improver): refresh official guidance"
+            diffs=$(jq -r '.changed[].diff' result.json | head -c 50000)
+            body="$(cat summary.md 2> /dev/null || echo 'Claude wrote no summary.')
+
+          <details><summary>Section diffs</summary>
+
+          \`\`\`diff
+          $diffs
+          \`\`\`
+          </details>"
+          fi
+          git commit -m "$title"
+          git push --force origin "$BRANCH"
+          if [ "$(gh pr view "$BRANCH" --json state -q .state 2> /dev/null)" = OPEN ]; then
+            gh pr edit "$BRANCH" --title "$title" --body "$body"
+          else
+            gh pr create --head "$BRANCH" --base "$BASE" --title "$title" --body "$body"
+          fi

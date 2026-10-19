@@ -1,0 +1,154 @@
+{
+  "skill_name": "agents-md-improver",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Rewrite the AGENTS.md in this repo so it's tight and follows Anthropic's guidance.",
+      "expected_output": "AGENTS.md rewritten under 60 lines with personas and default-behaviour rules cut, generic tool wording replaced by the pyproject commands, the stale mypy command flagged, and a grouped report of cuts with follow-ups.",
+      "files": [
+        "fixtures/e1/AGENTS.md",
+        "fixtures/e1/pyproject.toml",
+        "fixtures/e1/.claude/rules/testing.md"
+      ],
+      "expectations": [
+        "A1: The rewritten AGENTS.md is under 60 lines.",
+        "A2 [R]: No persona text ('You are a senior Python engineer', 'act like one') and no default-behaviour rule ('think step by step', 'read the relevant files before editing', 'match the existing code style') remains.",
+        "A3 [R]: 'the formatter', 'the linter' and 'the tests' are replaced by `uv run ruff format .`, `uv run ruff check .` and `uv run pytest`.",
+        "A4: The Conventional Commits rule is kept.",
+        "A5 [R][D]: The report lists the cuts grouped by kind (persona, default behaviour, linter-enforced, decision tree, emphasis), each group with a reason.",
+        "A6 [D]: The rewrite adds no rule that contradicts .claude/rules/testing.md (for example it doesn't keep or add 'unittest.TestCase'), and the report lists `/doctor prompt-audit` as the follow-up for cross-file contradictions or includes its findings.",
+        "A7 [R][D]: `uv run mypy src` is flagged as not defined by pyproject.toml or removed, and no command absent from pyproject.toml is introduced.",
+        "A8 [D]: The report lists `/doctor` as the follow-up for trimming and relocation (Claude Code) or lists relocation candidates (elsewhere), and no new files are created.",
+        "A9: No git commit was made."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Fold my coding-preferences.md into rewritten-AGENTS.md.",
+      "expected_output": "rewritten-AGENTS.md contains every preference once, specialized to the project ('main', the ruff format command), with a report that accounts for every input rule.",
+      "files": [
+        "fixtures/e2/rewritten-AGENTS.md",
+        "fixtures/e2/coding-preferences.md",
+        "fixtures/e2/pyproject.toml"
+      ],
+      "expectations": [
+        "Every preference from coding-preferences.md is present exactly once in the result.",
+        "[D] 'the default branch' is rendered as `main` and 'the formatter' as `uv run ruff format .`.",
+        "The result has no duplicate lines (for example only one 'tests with every change' rule and one type-hints rule).",
+        "[D] The report accounts for every input rule as kept, combined or dropped as a duplicate or conflict."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Merge team-preferences.md into AGENTS.md. AGENTS.md takes precedence.",
+      "expected_output": "The squash-merge rule from AGENTS.md wins over 'never squash'; the other team preferences are merged; the conflict is listed.",
+      "files": [
+        "fixtures/e3/AGENTS.md",
+        "fixtures/e3/team-preferences.md"
+      ],
+      "expectations": [
+        "The merged file keeps 'squash-merge pull requests' and doesn't contain 'never squash'.",
+        "`go vet ./...` and table-driven tests are kept.",
+        "[D] The report lists the squash-versus-merge-commit conflict and which side won.",
+        "[D] team-preferences.md is neither deleted nor modified; only AGENTS.md changes."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "This repo has both an AGENTS.md and a CLAUDE.md that overlap. Merge them.",
+      "expected_output": "A canonical AGENTS.md holding the shared rules and a CLAUDE.md that starts with @AGENTS.md and holds only the Claude-specific lines.",
+      "files": [
+        "fixtures/e4/AGENTS.md",
+        "fixtures/e4/CLAUDE.md",
+        "fixtures/e4/package.json"
+      ],
+      "expectations": [
+        "[D] CLAUDE.md starts with `@AGENTS.md`.",
+        "[D] CLAUDE.md holds only Claude-specific lines (plan mode for src/billing/, subagent for integration tests) and no rule already in AGENTS.md.",
+        "AGENTS.md keeps the shared commands and rules once each.",
+        "The report accounts for every input rule and mentions the `claude-md-and-agents-md` setting as the alternative.",
+        "[D] The report flags 'TypeScript strict mode; no `any`' (AGENTS.md) vs 'avoid `any`' (CLAUDE.md) as a refinement or conflict rather than a plain duplicate, and the result keeps the stricter 'no `any`'."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Tighten up my CLAUDE.md.",
+      "expected_output": "AGENTS.md (the symlink target) is rewritten; CLAUDE.md is still a symlink to it.",
+      "files": [
+        "fixtures/e5/AGENTS.md",
+        "fixtures/e5/CLAUDE.md"
+      ],
+      "expectations": [
+        "[D] AGENTS.md is edited (persona and 'read files before you edit them' are gone).",
+        "[D] CLAUDE.md is still a symlink pointing to AGENTS.md.",
+        "'the linter' becomes `cargo clippy -- -D warnings`."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Rewrite this skill so it follows the official skill authoring guidance.",
+      "expected_output": "Third-person description keeping every trigger context; CSV explainer cut; workflow and example kept; references flattened; the dated line under Old patterns; validation passes.",
+      "files": [
+        "fixtures/e6/csv-cleaning/SKILL.md",
+        "fixtures/e6/csv-cleaning/references/advanced.md",
+        "fixtures/e6/csv-cleaning/references/details.md",
+        "fixtures/e6/csv-cleaning/scripts/clean.py"
+      ],
+      "expectations": [
+        "The description is in third person and still mentions bad headers, duplicate rows, mixed date formats and tidy/normalize/dedupe requests.",
+        "The 'What is a CSV file?' and 'Why cleaning matters' explanations are cut; the workflow steps and the header example are kept.",
+        "details.md is linked from SKILL.md (or merged), and advanced.md no longer links to another reference file.",
+        "The 'As of March 2025' line is under an 'Old patterns' heading or reworded without a date, and skill-creator's `quick_validate.py` and the repo's `tools/lint_skill.py` both exit 0 on the result.",
+        "The SKILL.md body is not padded toward 1,000-3,000 words and stays under 500 lines.",
+        "No reference content is lost: the `--dayfirst` and `--keep-duplicates` options and the list of supported date formats still appear somewhere in the skill (moved or merged is fine)."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Run evals on my pdf skill.",
+      "expected_output": "Routed to skill-creator in one line; no file changed.",
+      "files": [],
+      "expectations": [
+        "The response routes the request to skill-creator.",
+        "No file is created or changed by this skill."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Audit my CLAUDE.md, don't change anything.",
+      "expected_output": "Routed to /doctor prompt-audit (run or suggested); claude-md-improver not invoked; no file changed.",
+      "files": [
+        "fixtures/e8/CLAUDE.md"
+      ],
+      "expectations": [
+        "The response runs or suggests `/doctor prompt-audit` on CLAUDE.md (outside Claude Code: report-only findings).",
+        "claude-md-improver is not invoked.",
+        "CLAUDE.md is unchanged."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "My CLAUDE.md is too long, cut whatever Claude can figure out from the code.",
+      "expected_output": "Tells the user /doctor does this; no rewrite; no file changed.",
+      "files": [
+        "fixtures/e8/CLAUDE.md"
+      ],
+      "expectations": [
+        "The response says `/doctor` trims content derivable from the code.",
+        "No rewrite runs and CLAUDE.md is unchanged."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "What's missing from my CLAUDE.md?",
+      "expected_output": "Points to claude-md-improver or /revise-claude-md when installed, otherwise says this skill doesn't add content; no file changed.",
+      "files": [
+        "fixtures/e8/CLAUDE.md"
+      ],
+      "expectations": [
+        "The response points to `claude-md-improver` or `/revise-claude-md`, or says this skill doesn't add content.",
+        "CLAUDE.md is unchanged."
+      ]
+    }
+  ]
+}
