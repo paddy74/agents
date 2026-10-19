@@ -88,7 +88,7 @@ Skills that condense Anthropic's docs (currently `agents-md-improver`) are kept 
 1. Run `claude setup-token` and store the token as the repo secret `CLAUDE_CODE_OAUTH_TOKEN` (uses your Claude subscription, not an API key).
 2. In Settings → Actions → General, enable "Allow GitHub Actions to create and approve pull requests".
 
-To clear a `guidance-watch` issue after re-checking the overlap, run `uv run python tools/check_guidance.py --manifest <manifest> --accept-watch <ids>` and commit.
+To clear a `guidance-watch` issue after re-checking the overlap, run `uv run python tools/check_guidance.py --manifest <manifest> --accept-watch <ids>` and commit; the next run closes the issue.
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Work on branches; `main` only receives reviewed changes.
 

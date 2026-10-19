@@ -1,6 +1,7 @@
 # Keeps agents-md-improver's condensed official guidance current.
 # Changed docs -> Claude edits official-*.md -> tests -> PR on bot/guidance-refresh.
-# Changed built-ins (watch entries) -> one issue labelled guidance-watch.
+# Changed built-ins (watch entries) -> one issue labelled guidance-watch, closed by the
+# first later run in which every watch entry matches.
 name: guidance
 
 on:
@@ -43,6 +44,7 @@ jobs:
           {
             echo "code=$code"
             echo "watch=$(jq -r '.watch_changed | join(" ")' result.json)"
+            echo "errors=$(jq '.errors | length' result.json)"
             echo "stale=$(jq -r --argjson max "$max" '.age_days >= $max' result.json)"
           } >> "$GITHUB_OUTPUT"
 
@@ -65,6 +67,17 @@ jobs:
             gh issue edit "$number" --body "$body"
           else
             gh issue create --title "agents-md-improver: built-in changed" --label guidance-watch --body "$body"
+          fi
+
+      - name: Close resolved built-in issue
+        # Only when every watch entry was checked; a failed fetch leaves the issue open.
+        if: steps.check.outputs.watch == '' && steps.check.outputs.errors == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          number=$(gh issue list --label guidance-watch --state open --json number -q '.[0].number')
+          if [ -n "$number" ]; then
+            gh issue close "$number" --comment "Every watch entry matches its stored hash again."
           fi
 
       - name: Update guidance

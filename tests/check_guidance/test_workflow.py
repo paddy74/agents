@@ -68,6 +68,14 @@ def test_never_pushes_to_default_branch() -> None:
     assert workflow()["env"]["BRANCH"].startswith("bot/")
 
 
+def test_watch_issue_closes_only_after_a_full_check() -> None:
+    """The issue closes only when no watch entry changed and none failed to fetch."""
+    (close,) = [s for s in steps() if "gh issue close" in s.get("run", "")]
+    condition = close["if"]
+    assert "steps.check.outputs.watch == ''" in condition
+    assert "steps.check.outputs.errors == '0'" in condition
+
+
 def run_scripts() -> list[str]:
     """:return: The ``run`` script of each step that has one."""
     return [s["run"] for s in steps() if "run" in s]
