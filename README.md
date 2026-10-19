@@ -51,6 +51,8 @@ for skill in skills/*/; do
 done
 ```
 
+Claude-only skills live in `claude/skills/`; link them the same way.
+
 Skill scripts that import `shared.<module>` need the shared code bundled first; package after bundling too:
 
 ```bash
