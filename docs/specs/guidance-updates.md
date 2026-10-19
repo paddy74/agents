@@ -243,5 +243,5 @@ Acceptance:
   of the file that owns the section, the tests pass, and one PR opens on
   `bot/guidance-refresh`.
 - **Watch issue:** after a watch hash is edited, a run opens one `guidance-watch`
-  issue and no PR, unless sections also changed. `--accept-watch` clears the issue
-  on the next run.
+  issue and no PR, unless sections also changed. After `--accept-watch`, the next run
+  leaves the issue alone; the workflow never closes it.
