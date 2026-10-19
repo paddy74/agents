@@ -16,7 +16,7 @@ Steps:
    keep one rule per line and keep every `[section-id]` tag. If a change adds
    guidance no rule covers, add one tagged rule under the closest heading.
 3. Ignore changes that don't change meaning: version notes, link targets, wording
-   with the same meaning, reordering.
+   with the same meaning, reordering. An empty `diff` is noise: make no edit.
 4. For each `missing` id, fetch its source page (the manifest's `sources`), find the
    heading that now holds that content, and set the section's `heading` in the
    manifest. Change nothing else in the manifest. If no heading fits, leave it and
