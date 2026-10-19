@@ -162,12 +162,16 @@ Steps:
 
 1. **Check.** Run the checker into `result.json`. Any exit other than 0, 10 or 11
    fails the job, which sends GitHub's failure notice. The step outputs `code`,
-   `watch` (space-separated ids) and `stale` (`age_days ≥ max_age_days`).
+   `watch` (space-separated ids), `errors` (count) and `stale`
+   (`age_days ≥ max_age_days`).
 2. **Watch issue.** If `watch` is set:
    - ensure the `guidance-watch` label exists;
    - edit its open issue, or create one;
    - the body names the ids, the `--accept-watch` command, and the skill spec's
      re-check procedure.
+
+   If `watch` is empty and `errors` is 0, close the open `guidance-watch` issue
+   with a comment. A failed fetch leaves it open.
 3. **Update.** If `code` ≠ 0, run claude-code-action with:
    - `claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}` (the Pro
      subscription; no API key);
@@ -204,7 +208,7 @@ Steps:
   the new meaning. Paraphrase, keep one rule per line, and keep the tags. Add a
   tagged rule only for guidance that no rule covers.
 - Ignore changes that don't change the meaning: version notes, link targets,
-  rewording, reordering.
+  rewording, reordering. An empty `diff` means no edit.
 - For each `missing` id, fetch its source, find the heading that now holds the
   content, and update only that `heading` in the manifest. If no heading fits, say
   so.
@@ -228,6 +232,7 @@ cover:
 - every action is pinned to a 40-character hex SHA;
 - authentication uses `CLAUDE_CODE_OAUTH_TOKEN`, with no API key;
 - the only `git push` targets a `bot/` branch;
+- the watch issue closes only when `watch` is empty and `errors` is 0;
 - every `run` script passes `bash -n` once `${{ }}` is filled in.
 
 ## 8. Setup and acceptance
@@ -244,4 +249,4 @@ Acceptance:
   `bot/guidance-refresh`.
 - **Watch issue:** after a watch hash is edited, a run opens one `guidance-watch`
   issue and no PR, unless sections also changed. After `--accept-watch`, the next run
-  leaves the issue alone; the workflow never closes it.
+  closes the issue.
