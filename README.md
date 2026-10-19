@@ -74,6 +74,8 @@ uv run basedpyright
 uv run pytest
 ```
 
+Lint every skill you change with `uv run python tools/lint_skill.py <skill-dir>`. Its parity tests run only when `QUICK_VALIDATE_PATH` (skill-creator's `quick_validate.py`) or `SKILLS_REF_BIN` is set, or `skills-ref` is on PATH.
+
 Shared Python for skill scripts lives in `tools/shared/`. Skills import it as `shared.<module>`, and `tools/bundle_shared.py` copies it into each skill's gitignored `scripts/shared/`; `--check` reports stale copies.
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Work on branches; `main` only receives reviewed changes.
