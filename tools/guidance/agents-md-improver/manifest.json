@@ -1,6 +1,6 @@
 {
   "max_age_days": 30,
-  "last_checked": "2026-10-17",
+  "last_checked": "2026-10-19",
   "references_dir": "claude/skills/agents-md-improver/references",
   "sources": {
     "mem": "https://code.claude.com/docs/en/memory",
@@ -19,7 +19,7 @@
     {"id": "w-prompt-audit-changelog", "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md", "match": "prompt-audit|prompt audit", "sha256": "693430c0d60d4a3377ce9495e0d28aefb8bc0156640d689fe34d5d486dcda189"}
   ],
   "sections": [
-    {"id": "mem-when-to-add", "source": "mem", "target": "official-instructions.md", "heading": "When to add to CLAUDE.md", "sha256": "51c0b0e83e3736fedd2992a87e17aa5fcea8594c64e3e24ea281a93ca7fa23cd"},
+    {"id": "mem-when-to-add", "source": "mem", "target": "official-instructions.md", "heading": "When to add to CLAUDE.md", "sha256": "51c5b0e83e3736fedd2992a87e17aa5fcea8594c64e3e24ea281a93ca7fa23cd"},
     {"id": "mem-write-effective", "source": "mem", "target": "official-instructions.md", "heading": "Write effective instructions", "sha256": "a8dd44fe210ac6fc7c2e2b37bccaab7f3dad3de100aad61970a3c8cd117f254b"},
     {"id": "mem-audit", "source": "mem", "target": "official-instructions.md", "heading": "Audit your instruction files", "sha256": "e1983136212d1f0c16f368f0f5a5b0f9fae486e194be4da03220371ee1601ccf"},
     {"id": "mem-how-load", "source": "mem", "target": "official-instructions.md", "heading": "How CLAUDE.md files load", "sha256": "563880d78e036df2f9611e7583cfa1bffccc8221c0eb554add52c914a4104bf6"},
