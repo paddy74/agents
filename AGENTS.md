@@ -23,6 +23,7 @@ Personal agent configuration repo: skills, instruction files and tool-specific c
 - SKILL.md body under 500 lines; reference files linked directly from SKILL.md, one level deep.
 - Keep tests and dev files out of skill folders; everything in a skill folder ships.
 - If `tools/lint_skill.py` exists, run it on every skill you change and fix all errors.
+- Shared Python for skill scripts goes in `tools/shared/`, imported as `shared.<module>`; never copy it into a skill by hand. `uv run python tools/bundle_shared.py <skill-dir>` bundles it.
 
 ## Commands
 

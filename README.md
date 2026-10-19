@@ -51,6 +51,12 @@ for skill in skills/*/; do
 done
 ```
 
+Skill scripts that import `shared.<module>` need the shared code bundled first; package after bundling too:
+
+```bash
+uv run python tools/bundle_shared.py skills/*/ claude/skills/*/
+```
+
 **Several machines:** add a `.claude-plugin/marketplace.json` at the repo root and install with `/plugin marketplace add <owner>/<repo>`.
 
 **claude.ai and Cowork:** these don't read `~/.claude/skills/`. Package the skill folder and upload it to your claude.ai account; it then syncs to Cowork and cloud sessions. This repo stays the source of truth, so re-upload after changes.
@@ -67,6 +73,8 @@ uv run ruff check . && uv run ruff format --check .
 uv run basedpyright
 uv run pytest
 ```
+
+Shared Python for skill scripts lives in `tools/shared/`. Skills import it as `shared.<module>`, and `tools/bundle_shared.py` copies it into each skill's gitignored `scripts/shared/`; `--check` reports stale copies.
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Work on branches; `main` only receives reviewed changes.
 
