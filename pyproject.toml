@@ -12,7 +12,14 @@ dependencies = []
 Source = "https://github.com/paddy74/agents/"
 
 [dependency-groups]
-dev = ["basedpyright>=1.35.0", "prek>=0.2.19", "pytest>=9.0.1", "ruff>=0.14.8"]
+dev = [
+    "basedpyright>=1.35.0",
+    "prek>=0.2.19",
+    "pytest>=9.0.1",
+    "pyyaml>=6.0.3",
+    "ruff>=0.14.8",
+    "types-pyyaml>=6.0.12.20260906",
+]
 
 [tool.basedpyright]
 typeCheckingMode = "strict"
@@ -20,10 +27,18 @@ venvPath = "."
 venv = ".venv"
 pythonVersion = "3.12"
 pythonPlatform = "All"
+# Generated copies of tools/shared/ (tools/bundle_shared.py); the source is checked.
+exclude = ["**/node_modules", "**/__pycache__", "**/.*", "**/scripts/shared"]
+executionEnvironments = [
+  { root = "tests", extraPaths = ["tools"] },
+  { root = "claude/skills", extraPaths = ["tools"] },
+  { root = "skills", extraPaths = ["tools"] },
+]
 
 [tool.ruff]
 line-length = 88
 target-version = "py312"
+extend-exclude = ["tests/agents-md-improver/evals/fixtures"]
 
 [tool.ruff.lint]
 ignore = ["E203", "E501"]
@@ -31,5 +46,5 @@ select = ["C", "E", "F", "I", "W", "B"]
 extend-select = ["UP"] # pyupgrade
 
 [tool.pytest.ini_options]
-addopts = "-q"
+addopts = "-q --import-mode=importlib"
 testpaths = ["tests"]
