@@ -24,7 +24,8 @@ What doesn't belong here:
 ├── gemini/          # gemini-only config
 ├── tools/           # shared scripts (linters, validators)
 ├── tests/           # tests, one folder per skill or tool; never packaged
-└── docs/            # notes about this repo and what it references
+├── docs/            # notes about this repo and what it references
+└── .github/         # CI (guidance updates)
 ```
 
 | Folder          | Contents                                                                                                                                                                |
@@ -79,6 +80,15 @@ uv run pytest
 Lint every skill you change with `uv run python tools/lint_skill.py <skill-dir>`. Its parity tests run only when `QUICK_VALIDATE_PATH` (skill-creator's `quick_validate.py`) or `SKILLS_REF_BIN` is set, or `skills-ref` is on PATH.
 
 Shared Python for skill scripts lives in `tools/shared/`. Skills import it as `shared.<module>`, and `tools/bundle_shared.py` copies it into each skill's gitignored `scripts/shared/`; `--check` reports stale copies.
+
+### Official guidance updates
+
+Skills that condense Anthropic's docs (currently `agents-md-improver`) are kept current by a weekly workflow: it opens a PR from `bot/guidance-refresh` when the docs change, and a `guidance-watch` issue when a built-in the skill relies on changes. How it works: [docs/specs/guidance-updates.md](docs/specs/guidance-updates.md). One-time setup:
+
+1. Run `claude setup-token` and store the token as the repo secret `CLAUDE_CODE_OAUTH_TOKEN` (uses your Claude subscription, not an API key).
+2. In Settings → Actions → General, enable "Allow GitHub Actions to create and approve pull requests".
+
+To clear a `guidance-watch` issue after re-checking the overlap, run `uv run python tools/check_guidance.py --manifest <manifest> --accept-watch <ids>` and commit.
 
 Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). Work on branches; `main` only receives reviewed changes.
 

@@ -9,7 +9,9 @@ Personal agent configuration repo: skills, instruction files and tool-specific c
 - `claude/`: config that only works in claude.
 - `codex/`: config that only works in codex.
 - `gemini/`: config that only works in gemini.
-- `tools/`: shared scripts. `tests/<name>/`: tests for the matching skill or tool.
+- `tools/`: shared scripts. `tools/guidance/<skill>/`: guidance manifests and snapshots
+  for `tools/check_guidance.py`. `tests/<name>/`: tests for the matching skill or tool.
+- `.github/workflows/`: CI. `bot/*` branches belong to CI; don't commit to them.
 - `docs/`: decisions and references. Never put standalone software (MCP servers, CLIs)
   or notes meant only for people in this repo.
 - Portable (works in more than one tool) → shared folder; single tool → that tool's folder.
