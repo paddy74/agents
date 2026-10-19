@@ -22,9 +22,9 @@ What doesn't belong here:
 ├── claude/          # claude-only config
 ├── codex/           # codex-only config
 ├── gemini/          # gemini-only config
-├── tools/           # shared scripts (linters, validators)
+├── tools/           # shared scripts (linter, bundler, guidance checker)
 ├── tests/           # tests, one folder per skill or tool; never packaged
-├── docs/            # notes about this repo and what it references
+├── docs/            # specs, decisions and findings
 └── .github/         # CI (guidance updates)
 ```
 
@@ -36,8 +36,8 @@ What doesn't belong here:
 | `codex/`        | Config that only works in codex (agents, hooks, commands, settings snippets, plugin manifests)                                                                          |
 | `gemini/`       | Config that only works in gemini (agents, hooks, commands, settings snippets, plugin manifests)                                                                         |
 | `tools/`        | Scripts shared across skills and tools                                                                                                                                  |
-| `tests/`        | Tests, mirroring the folder they test (`tests/<skill-name>/`)                                                                                                           |
-| `docs/`         | Decisions, overlap findings, links to related repositories                                                                                                              |
+| `tests/`        | Tests, one folder per skill or tool (`tests/<name>/`)                                                                                                                   |
+| `docs/`         | Specs (`docs/specs/`), decisions, overlap findings and acceptance records (`docs/<skill>/`), links to related repositories                                              |
 
 **Where does a new thing go?** If it works in more than one tool, it goes in a shared folder (`skills/`, `instructions/`). If it only works in one tool, it goes in that tool's folder. When a tool-specific item becomes portable, move it up.
 
