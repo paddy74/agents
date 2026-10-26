@@ -4,10 +4,10 @@ Claude Code accepts every field in the table above. Outside Claude Code, you can
 
 | Distribution path | Frontmatter fields you can use |
 | :- | :- |
-| Claude Code skills at [any level](#where-skills-live), including [plugin](/docs/en/plugins/overview) skills | Every field in the table above |
+| Claude Code skills at [any level](#where-skills-live), including [plugin](https://code.claude.com/docs/en/plugins/overview.md) skills | Every field in the table above |
 | claude.ai skill uploads, the Skills API, and packaging with `package_skill.py` from [anthropics/skills](https://github.com/anthropics/skills) | `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools` |
 
-When you enable a personal skill for your claude.ai account, for example to use it in [Cowork and cloud sessions](#skills-in-cowork-and-cloud-sessions) and routines, you upload it to claude.ai, so the same rules apply.
+When you enable a personal skill for your claude.ai account, for example to use it in [Cowork and cloud sessions](#skills-in-cowork-and-cloud-sessions) and scheduled tasks, you upload it to claude.ai. The same rules apply to that upload.
 
 If you include any field the spec doesn't allow, packaging or upload fails with a hard error instead of ignoring the field:
 

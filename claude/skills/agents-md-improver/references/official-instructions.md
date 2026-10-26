@@ -1,5 +1,5 @@
 ---
-as_of: 2026-10-19
+as_of: 2026-10-26
 sources:
   mem: https://code.claude.com/docs/en/memory
   bp: https://code.claude.com/docs/en/best-practices
@@ -25,6 +25,7 @@ sources:
 ## How to write
 - Make every instruction concrete enough to verify ("Use 2-space indentation", not "format code properly"). [mem-write-effective]
 - Target under 200 lines per file; longer files cost context and reduce adherence. [mem-write-effective]
+- Keep each path-scoped rules file under its own size limit; Claude receives only the start of a file over it. [mem-too-large]
 - Group under markdown headings with bullets, not dense paragraphs. [mem-write-effective]
 - Remove contradictions across CLAUDE.md, nested CLAUDE.md and `.claude/rules/`; the agent may pick either side. [mem-write-effective]
 - `/doctor prompt-audit [path]` (Claude Code) reports old-model instructions, missing files and commands, and contradictions across CLAUDE.md, CLAUDE.local.md, AGENTS.md, rules, skills, commands, subagents and output styles; it proposes edits and applies none. [mem-audit]
@@ -34,6 +35,8 @@ sources:
 ## Where content goes
 - Multi-step procedure or occasional domain knowledge → skill. [mem-when-to-add, bp-write-effective]
 - Relevant only to some files → `.claude/rules/*.md` with `paths:` globs; loads when Read/Write/Edit touches a matching file. `paths` is the only frontmatter field read. Rules without `paths` load at launch. [mem-path-rules]
+- Path patterns in project rules resolve from the directory holding `.claude`; user-level rules resolve from the session's working directory. [mem-path-rules]
+- Path-scoped rules for a sibling git worktree load only when the session starts there or moves there with `/cd`. [mem-path-rules]
 - Must happen every time with no exceptions → hook; instructions are advisory, hooks are deterministic. [bp-hooks, mem-not-following]
 - `@path` imports organize a file but don't reduce context; imported files load at launch. [mem-write-effective]
 
