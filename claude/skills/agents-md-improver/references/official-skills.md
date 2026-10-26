@@ -1,5 +1,5 @@
 ---
-as_of: 2026-10-19
+as_of: 2026-10-26
 sources:
   skills: https://code.claude.com/docs/en/skills
   sbp: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
@@ -22,6 +22,7 @@ sources:
 - Frontmatter is read only when the opening `---` is the file's first line. [sk-frontmatter]
 - For claude.ai uploads, the Skills API and `package_skill.py`, frontmatter is limited to `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`; other fields fail packaging. Claude Code ignores unknown fields silently. [sk-frontmatter-ext, sk-frontmatter]
 - Claude Code fields: `disable-model-invocation: true` for side-effect tasks the user should trigger; `user-invocable: false` for background knowledge; `context: fork` to run in a subagent. [sk-frontmatter, sk-invocation]
+- `paths` globs in a skill are relative to the working directory; files outside it never match. [sk-frontmatter]
 
 ## Descriptions
 - Non-empty, ≤1,024 chars, no XML tags, always third person ("Processes Excel files…", not "I can…" or "You can…"). [sbp-yaml, sbp-descriptions]

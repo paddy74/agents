@@ -1,6 +1,6 @@
 ### Writing effective descriptions
 
-The `description` field enables Skill discovery and should include both what the Skill does and when to use it.
+The `description` field makes Skill discovery possible and should include both what the Skill does and when to use it.
 
 <Warning>
   **Always write in third person**. The description is injected into the system prompt, and inconsistent point-of-view can cause discovery problems.
@@ -12,7 +12,7 @@ The `description` field enables Skill discovery and should include both what the
 
 **Be specific and include key terms**. Include both what the Skill does and specific triggers/contexts for when to use it.
 
-Each Skill has exactly one description field. The description is critical for skill selection: Claude uses it to choose the right Skill from potentially 100+ available Skills. Your description must provide enough detail for Claude to know when to select this Skill, while the rest of SKILL.md provides the implementation details.
+Each Skill has exactly one description field. The description is critical for skill selection: Claude uses it to choose the right Skill from potentially 100+ available Skills. Your description must provide enough detail for Claude to determine when to select this Skill, whereas the rest of `SKILL.md` provides the implementation details.
 
 Effective examples:
 
@@ -34,7 +34,7 @@ description: Analyze Excel spreadsheets, create pivot tables, generate charts. U
 description: Generate descriptive commit messages by analyzing git diffs. Use when the user asks for help writing commit messages or reviewing staged changes.
 ```
 
-Avoid vague descriptions like these:
+Avoid vague descriptions such as these:
 
 ```yaml
 description: Helps with documents
