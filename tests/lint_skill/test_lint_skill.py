@@ -195,7 +195,7 @@ CASES: dict[str, tuple[SkillSpec, str, str]] = {
         "error",
         "compatibility",
     ),
-    "unknown-field": (SkillSpec(frontmatter=fm(owner="me")), "error", "fields"),
+    "unknown-field": (SkillSpec(frontmatter=fm(owner="me")), "warning", "fields"),
     # body and structure
     "body-over-500": (SkillSpec(body=BODY + "line\n" * 500), "error", "body-size"),
     "body-over-300": (SkillSpec(body=BODY + "line\n" * 300), "warning", "body-size"),
@@ -286,11 +286,10 @@ def test_check_reports_expected_finding(tmp_path: Path, case: str) -> None:
 @pytest.mark.parametrize(
     ("spec", "check"),
     [
-        (SkillSpec(frontmatter=fm(owner="me")), "fields"),
         (SkillSpec(dir_name="other-dir"), "name-dir"),
         (SkillSpec(frontmatter=fm(metadata="{version: 1}")), "metadata"),
     ],
-    ids=["unknown-field", "name-dir", "metadata-types"],
+    ids=["name-dir", "metadata-types"],
 )
 def test_error_under_portable_warning_under_claude_code(
     tmp_path: Path, spec: SkillSpec, check: str
@@ -303,9 +302,9 @@ def test_error_under_portable_warning_under_claude_code(
 
 
 def test_claude_code_field_allowed_only_for_claude_code(tmp_path: Path) -> None:
-    """A Claude Code-only field is an error for portable and allowed for Claude Code."""
+    """A Claude Code-only field is a warning for portable and allowed for Claude Code."""
     spec = SkillSpec(frontmatter=fm(model="opus", when_to_use="Reading PDFs."))
-    assert ("error", "fields") in findings(tmp_path / "p", spec, "portable")
+    assert ("warning", "fields") in findings(tmp_path / "p", spec, "portable")
     assert findings(tmp_path / "c", spec, "claude-code") == []
 
 
@@ -365,11 +364,11 @@ def test_cli_usage_errors(tmp_path: Path) -> None:
 
 def test_json_output(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     """``--json`` prints counts and findings."""
-    skill = build(tmp_path, SkillSpec(frontmatter=fm(owner="me")))
+    skill = build(tmp_path, SkillSpec(dir_name="other-dir"))
     assert ls.main([str(skill), "--json"]) == 1
     out = json.loads(capsys.readouterr().out)
     assert out["errors"] == 1 and out["target"] == "portable"
-    assert out["findings"][0]["check"] == "fields"
+    assert out["findings"][0]["check"] == "name-dir"
 
 
 def test_bundled_shared_modules_not_flagged(tmp_path: Path) -> None:

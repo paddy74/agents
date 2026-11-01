@@ -88,7 +88,7 @@ in the shared code:
 | `description` + `when_to_use` | error (claude-code) | ≤ 1,536 chars together |
 | `description` voice | warning | first or second person |
 | `description` trigger | warning | no "use when"-style clause |
-| Fields | error (portable), warning (claude-code) | not in the target's list |
+| Fields | warning | not in the target's list |
 | Single SKILL.md | error | another SKILL.md outside `evals/`, `__pycache__` or `node_modules` |
 | Body size | error > 500 lines; warning > 300 lines or > 5,000 tokens (chars ÷ 4) | |
 | Top of body | warning | no workflow, steps or routing heading in the first 40 lines |

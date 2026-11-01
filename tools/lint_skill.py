@@ -393,9 +393,8 @@ def check_fields(
     """
     unknown = sorted(str(k) for k in meta if k not in allowed)
     if unknown:
-        severity: Severity = "error" if target == "portable" else "warning"
         report.add(
-            severity,
+            "warning",
             "fields",
             f"field(s) not allowed for target '{target}': {', '.join(unknown)}",
         )
