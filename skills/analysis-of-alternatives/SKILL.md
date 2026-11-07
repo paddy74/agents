@@ -1,6 +1,7 @@
 ---
 name: "analysis-of-alternatives"
-description: 'Conduct and write a defensible Analysis of Alternatives (AoA), trade study or tool, product, vendor or technology selection: asks the few questions that would change the answer, screens the market, applies must-have gates, scores ISO/IEC 25010-based weighted criteria with a bundled scoring engine and sensitivity analysis (GAO/DoD AoA practice), and delivers a versioned Markdown report. Use it whenever someone wants to choose, select, compare or evaluate options against requirements, even if they never say "AoA": "help me pick a VPN", "which identity provider should we use", "compare Airflow, Prefect and Dagster for our team", "evaluate my options for a budgeting app", a trade study, or updating an existing AoA with new answers. Not for listing alternatives without a decision, single-product how-to questions, or quick spec lookups.'
+description: 'Conduct and write a defensible Analysis of Alternatives (AoA), trade study or tool, product, vendor or technology selection: asks the few questions that would change the answer, screens the market, applies must-have gates, scores ISO/IEC 25010-based weighted criteria with a bundled scoring engine and sensitivity analysis (GAO/DoD AoA practice), and delivers a versioned Markdown report. Not for listing alternatives without a decision, single-product how-to questions, or quick spec lookups.'
+disable-model-invocation: true
 ---
 
 # Analysis of Alternatives (AoA)
