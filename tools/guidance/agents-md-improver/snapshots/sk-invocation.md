@@ -23,19 +23,19 @@ Deploy $ARGUMENTS to production:
 4. Verify the deployment succeeded
 ```
 
-If Claude tries anyway, Claude Code blocks the call and instructs it not to reproduce the deploy steps another way, so expect Claude to suggest running `/deploy` yourself.
+If Claude tries when your message doesn't include `/deploy` as a [separate word with no punctuation attached](#where-you-write-the-skills-name), Claude Code blocks the call. Expect Claude to suggest running `/deploy` yourself.
 
 Here's how the two fields affect invocation and context loading:
 
 | Frontmatter | You can invoke | Claude can invoke | When loaded into context |
 | :- | :- | :- | :- |
-| (default) | Yes | Yes | Description always in context, full skill loads when invoked |
+| (default) | Yes | Yes | Description in context, full skill loads when invoked |
 | `disable-model-invocation: true` | Yes | Not on its own | Description not in context, full skill loads when invoked |
-| `user-invocable: false` | No | Yes | Description always in context, full skill loads when invoked |
+| `user-invocable: false` | No | Yes | Description in context, full skill loads when invoked |
 
-<Note>
-  In a regular session, skill descriptions are loaded into context so Claude knows what's available, but full skill content only loads when invoked. [Subagents with preloaded skills](/docs/en/sub-agents#preload-skills-into-subagents) work differently: the full skill content is injected at startup.
-</Note>
+> [!NOTE]
+>
+> In a regular session, skill descriptions are loaded into context so Claude knows what's available, but full skill content only loads when invoked. [Subagents with preloaded skills](https://code.claude.com/docs/en/sub-agents.md#preload-skills-into-subagents) work differently: the full skill content is injected at startup.
 
 #### Where you write the skill's name
 

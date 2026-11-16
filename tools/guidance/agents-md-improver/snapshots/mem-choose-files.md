@@ -9,7 +9,7 @@ To change which files Claude reads, type `/config` in a Claude Code session to o
 | `claude-md` | Your `CLAUDE.md` files only |
 | `managed-only` | Only your organization's managed `CLAUDE.md` and [auto memory](#auto-memory) at launch. Your project, local, and user `CLAUDE.md` files, your `.claude/rules/` files, and every `AGENTS.md` are left out. A subdirectory's `CLAUDE.md` and `.claude/rules/` files, and [path-scoped rules](#path-specific-rules), still load on demand |
 
-You can also set the value in a settings file instead of `/config`. Add it to [`pluginConfigs`](/docs/en/settings-reference#pluginconfigs) under `cc-plugin-agents-md@builtin`, the ID of the built-in plugin that reads `AGENTS.md`. Claude Code reads the entry from `~/.claude/settings.json`, a `--settings` file, or [managed settings](/docs/en/managed-settings), and ignores it in project and local settings files. This example has Claude read both files:
+You can also set the value in a settings file instead of `/config`. Add it to [`pluginConfigs`](https://code.claude.com/docs/en/settings-reference#pluginconfigs) under `cc-plugin-agents-md@builtin`, the ID of the built-in plugin that reads `AGENTS.md`. Claude Code reads the entry from `~/.claude/settings.json`, a `--settings` file, or [managed settings](https://code.claude.com/docs/en/managed-settings.md), and ignores it in project and local settings files. This example has Claude read both files:
 
 ```json settings.json theme={null}
 {

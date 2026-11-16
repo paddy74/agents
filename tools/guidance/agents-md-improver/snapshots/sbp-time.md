@@ -1,6 +1,6 @@
 ### Avoid time-sensitive information
 
-Don't include information that will become outdated:
+Don’t include information that will become outdated:
 
 **Bad example: Time-sensitive** (will become wrong):
 
@@ -9,7 +9,7 @@ If you're doing this before August 2025, use the old API.
 After August 2025, use the new API.
 ```
 
-**Good example** (use "old patterns" section):
+**Good example** (use “old patterns” section):
 
 ```markdown
 ## Current method

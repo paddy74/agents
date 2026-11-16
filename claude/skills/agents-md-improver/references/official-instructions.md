@@ -1,5 +1,5 @@
 ---
-as_of: 2026-10-19
+as_of: 2026-11-16
 sources:
   mem: https://code.claude.com/docs/en/memory
   bp: https://code.claude.com/docs/en/best-practices
@@ -21,6 +21,7 @@ sources:
 - Exclude: anything derivable from the code; standard language conventions; detailed API docs (link instead); frequently changing info; long explanations or tutorials; file-by-file descriptions; self-evident advice ("write clean code"). [bp-write-effective]
 - `/doctor` (Claude Code) proposes cuts for derivable content (directory layouts, dependency lists, architecture overviews) and keeps pitfalls, rationale and conventions that differ from tool defaults. [mem-too-large]
 - Claude Code warns at startup and in `/status` when a file is over the recommended length, and when files within it add up past a combined limit; each CLAUDE.md, rules file and `@path` import counts separately. [mem-too-large]
+- A path-scoped rules file has its own size limit; Claude gets only the start of a file over it. [mem-too-large]
 
 ## How to write
 - Make every instruction concrete enough to verify ("Use 2-space indentation", not "format code properly"). [mem-write-effective]
@@ -34,12 +35,14 @@ sources:
 ## Where content goes
 - Multi-step procedure or occasional domain knowledge → skill. [mem-when-to-add, bp-write-effective]
 - Relevant only to some files → `.claude/rules/*.md` with `paths:` globs; loads when Read/Write/Edit touches a matching file. `paths` is the only frontmatter field read. Rules without `paths` load at launch. [mem-path-rules]
+- Globs are relative to the rule's base: the directory holding `.claude` for project rules, the primary working directory for user-level rules. `/*.md` matches only the base's top level. [mem-path-rules]
 - Must happen every time with no exceptions → hook; instructions are advisory, hooks are deterministic. [bp-hooks, mem-not-following]
-- `@path` imports organize a file but don't reduce context; imported files load at launch. [mem-write-effective]
+- `@path` imports organize a file but don't reduce context; imported files load together with the file that imports them. [mem-write-effective]
 
 ## Loading
 - Block-level HTML comments are stripped before injection; comments inside code blocks stay. [mem-how-load]
 - CLAUDE.md and CLAUDE.local.md files from the working directory upward are concatenated, root first; subdirectory files load when Claude reads files there. [mem-how-load]
+- Directories added through the launch-time environment variable also load CLAUDE.md, `.claude/CLAUDE.md`, CLAUDE.local.md and `.claude/rules/*.md`, except path-scoped rules. [mem-how-load]
 
 ## AGENTS.md
 - Default: Claude Code reads AGENTS.md only when no CLAUDE.md, `.claude/CLAUDE.md` or CLAUDE.local.md exists in the working directory or above. User and managed CLAUDE.md and `.claude/rules/` don't count. AGENTS.local.md, AGENTS.override.md and `.agents/` are never read. [mem-agents-reads]
