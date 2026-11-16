@@ -1,4 +1,4 @@
-### Structure longer reference files with table of contents
+### Structure longer reference files with a table of contents
 
 For reference files longer than 100 lines, include a table of contents at the top. This ensures Claude can see the full scope of available information even when previewing with partial reads.
 
@@ -23,4 +23,4 @@ For reference files longer than 100 lines, include a table of contents at the to
 
 Claude can then read the complete file or jump to specific sections as needed.
 
-For details on how this filesystem-based architecture enables progressive disclosure, see the [Runtime environment](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#runtime-environment) section later in this guide.
+For details on how this filesystem-based architecture makes progressive disclosure possible, see the [Runtime environment](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#runtime-environment) section later in this guide.

@@ -7,11 +7,11 @@ Always use forward slashes in file paths, even on Windows:
 * ✓ **Good:** `scripts/helper.py`, `reference/guide.md`
 * ✗ **Avoid:** `scripts\helper.py`, `reference\guide.md`
 
-Unix-style paths work across all platforms, while Windows-style paths cause errors on Unix systems.
+Unix-style paths work across all platforms, whereas Windows-style paths cause errors on Unix systems.
 
 ### Avoid offering too many options
 
-Don't present multiple approaches unless necessary:
+Don’t present multiple approaches unless necessary:
 
 ````markdown
 **Bad example: Too many choices** (confusing):

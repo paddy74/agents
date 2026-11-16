@@ -15,16 +15,24 @@ paths:
 - Include OpenAPI documentation comments
 ```
 
-Rules without a `paths` field are loaded unconditionally and apply to all files. A path-scoped rule loads when Claude uses the Read, Write, or Edit tool on a matching file. It also loads when Claude views a matching file with a Bash command that [counts as a read](/docs/en/tools-reference#edit-tool-behavior), such as `cat` or `head` on a single file. Matching also works when Claude reaches a file through a symlinked path to the project directory, for example in a symlinked checkout.
+A path-scoped rule loads when Claude uses the Read, Write, or Edit tool on a matching file. It also loads when Claude views a matching file with a Bash command that [counts as a read](https://code.claude.com/docs/en/tools-reference.md#edit-tool-behavior), such as `cat` or `head` on a single file. Matching also works when Claude reaches a file through a symlinked path to the project directory, for example in a symlinked checkout.
+
+Each pattern is relative to the rule's base directory:
+
+* **Project rules**: the directory that contains the rule's `.claude` folder
+* **[User-level rules](#user-level-rules)**: the session's [primary working directory](https://code.claude.com/docs/en/permissions.md#working-directories)
+
+To have path-scoped rules load for files in a sibling git worktree, start Claude Code in that worktree or [move the session there with `/cd`](https://code.claude.com/docs/en/permissions#move-the-session-to-another-directory).
 
 Use glob patterns in the `paths` field to match files by extension, directory, or any combination:
 
 | Pattern | Matches |
 | - | - |
-| `**/*.ts` | All TypeScript files in any directory |
-| `src/**/*` | All files under `src/` directory |
-| `*.md` | Markdown files in the project root |
-| `src/components/*.tsx` | React components in a specific directory |
+| `**/*.ts` | `.ts` files anywhere under the base directory |
+| `src/**/*` | All files under the base directory's `src/` |
+| `*.md` | `.md` files anywhere under the base directory |
+| `/*.md` | `.md` files directly in the base directory, not in subfolders |
+| `src/components/*.tsx` | `.tsx` files directly in the base directory's `src/components/`, not in subfolders |
 
 You can specify multiple patterns and use brace expansion to match multiple extensions in one pattern:
 
@@ -39,6 +47,6 @@ paths:
 
 Each brace group multiplies the number of expanded patterns: `src/*.{ts,tsx}` expands to two patterns, and `{a,b}/{c,d}/*.{ts,tsx}` to eight. To keep expansion bounded, a rule's whole `paths` list shares one budget of 1,000 expanded patterns and 4 MiB, and patterns without braces don't count against it.
 
-Claude Code uses any pattern that would exceed the budget unexpanded, and its literal braces match no files. Before v2.1.217, a `paths` value with many brace groups stalled or crashed the CLI at startup.
+Claude Code uses any pattern that would exceed the budget unexpanded, and its literal braces match no files.
 
 Glob syntax treats `[` as the start of a bracket expression such as `[abc]`. A pattern with a `[` that can't be read as a bracket expression, such as `photos [2024/**`, is invalid: it matches nothing, and the rule's other patterns keep working. To match a literal `[` in a file name, escape it as `photos \[2024/**`.

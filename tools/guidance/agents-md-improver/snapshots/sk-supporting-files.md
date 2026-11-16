@@ -20,4 +20,6 @@ Reference supporting files from `SKILL.md` so Claude knows what each file contai
 - For usage examples, see [examples.md](examples.md)
 ```
 
-<Tip>Keep `SKILL.md` under 500 lines. Move detailed reference material to separate files.</Tip>
+> [!TIP]
+>
+> Keep `SKILL.md` under 500 lines. Move detailed reference material to separate files.
