@@ -27,6 +27,6 @@ Remember that the `name` field must use lowercase letters, numbers, and hyphens 
 Consistent naming makes it easier to:
 
 * Reference Skills in documentation and conversations
-* Understand what a Skill does at a glance
+* Understand what a Skill does from its name
 * Organize and search through multiple Skills
 * Maintain a professional, cohesive skill library

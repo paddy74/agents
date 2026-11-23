@@ -6,9 +6,9 @@ Before sharing a Skill, verify:
 
 * [ ] Description is specific and includes key terms
 * [ ] Description includes both what the Skill does and when to use it
-* [ ] SKILL.md body is under 500 lines
+* [ ] `SKILL.md` body is under 500 lines
 * [ ] Additional details are in separate files (if needed)
-* [ ] No time-sensitive information (or in "old patterns" section)
+* [ ] No time-sensitive information (or in “old patterns” section)
 * [ ] Consistent terminology throughout
 * [ ] Examples are concrete, not abstract
 * [ ] File references are one level deep
@@ -19,7 +19,7 @@ Before sharing a Skill, verify:
 
 * [ ] Scripts solve problems rather than defer to Claude
 * [ ] Error handling is explicit and helpful
-* [ ] No "voodoo constants" (all values justified)
+* [ ] No “voodoo constants” (all values justified)
 * [ ] Required packages listed in instructions and verified as available
 * [ ] Scripts have clear documentation
 * [ ] No Windows-style paths (all forward slashes)

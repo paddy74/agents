@@ -1,16 +1,16 @@
 ### Progressive disclosure patterns
 
-SKILL.md serves as an overview that points Claude to detailed materials as needed, like a table of contents in an onboarding guide. For an explanation of how progressive disclosure works, see [How Skills work](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview#how-skills-work) in the overview.
+`SKILL.md` serves as an overview that points Claude to detailed materials as needed, like a table of contents in an onboarding guide. For an explanation of how progressive disclosure works, see [How Skills work](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview#how-skills-work) in the overview.
 
 **Practical guidance:**
 
-* Keep SKILL.md body under 500 lines for optimal performance
-* Split content into separate files when approaching this limit
-* Use the following patterns to organize instructions, code, and resources effectively
+* Keep the `SKILL.md` body under 500 lines for optimal performance.
+* Split content into separate files when approaching this limit.
+* Use the following patterns to organize instructions, code, and resources effectively.
 
 #### Visual overview: From simple to complex
 
-A basic Skill starts with just a SKILL.md file containing metadata and instructions:
+A basic Skill starts with just a `SKILL.md` file containing metadata and instructions:
 
 <Frame>
   ![Simple SKILL.md file showing YAML frontmatter and markdown body](https://platform.claude.com/docs/images/agent-skills-simple-file.svg)
@@ -19,7 +19,7 @@ A basic Skill starts with just a SKILL.md file containing metadata and instructi
 As your Skill grows, you can bundle additional content that Claude loads only when needed:
 
 <Frame>
-  ![Bundling additional reference files like reference.md and forms.md.](https://platform.claude.com/docs/images/agent-skills-bundling-content.svg)
+  ![Bundling additional reference files such as reference.md and forms.md.](https://platform.claude.com/docs/images/agent-skills-bundling-content.svg)
 </Frame>
 
 The complete Skill directory structure might look like this:
@@ -36,7 +36,7 @@ The complete Skill directory structure might look like this:
 
   * `scripts/`
 
-    * `analyze_form.py`: Utility script (executed, not loaded)
+    * `analyze_form.py`: Utility script (run, not loaded)
     * `fill_form.py`: Form filling script
     * `validate.py`: Validation script
 
@@ -66,7 +66,7 @@ with pdfplumber.open("file.pdf") as pdf:
 **Examples**: See [EXAMPLES.md](EXAMPLES.md) for common patterns
 ````
 
-Claude loads FORMS.md, REFERENCE.md, or EXAMPLES.md only when needed.
+Claude loads `FORMS.md`, `REFERENCE.md`, or `EXAMPLES.md` only when needed.
 
 #### Pattern 2: Domain-specific organization
 
@@ -106,7 +106,7 @@ grep -i "api usage" reference/product.md
 
 #### Pattern 3: Conditional details
 
-Show basic content, link to advanced content:
+Show basic content and link to advanced content:
 
 ```markdown
 # DOCX Processing
@@ -123,4 +123,4 @@ For simple edits, modify the XML directly.
 **For OOXML details**: See [OOXML.md](OOXML.md)
 ```
 
-Claude reads REDLINING.md or OOXML.md only when the user needs those features.
+Claude reads `REDLINING.md` or `OOXML.md` only when the user needs those features.
