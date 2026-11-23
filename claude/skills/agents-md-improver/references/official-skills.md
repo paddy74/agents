@@ -1,5 +1,5 @@
 ---
-as_of: 2026-10-19
+as_of: 2026-11-23
 sources:
   skills: https://code.claude.com/docs/en/skills
   sbp: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
@@ -20,12 +20,14 @@ sources:
 - Agent Skills spec (portable): `name` matches the directory, no leading/trailing hyphen, no `--`; `compatibility` ≤500 chars; `metadata` maps strings to strings. [spec-frontmatter]
 - Spec loading tiers: metadata ~100 tokens at startup; SKILL.md body under ~5,000 tokens on activation; other files only when needed. [spec-disclosure]
 - Frontmatter is read only when the opening `---` is the file's first line. [sk-frontmatter]
+- Boolean fields accept `yes`, `no`, `on`, `off`, `1` and `0` in any letter case, as well as `true` and `false`. [sk-frontmatter]
 - For claude.ai uploads, the Skills API and `package_skill.py`, frontmatter is limited to `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`; other fields fail packaging. Claude Code ignores unknown fields silently. [sk-frontmatter-ext, sk-frontmatter]
 - Claude Code fields: `disable-model-invocation: true` for side-effect tasks the user should trigger; `user-invocable: false` for background knowledge; `context: fork` to run in a subagent. [sk-frontmatter, sk-invocation]
 
 ## Descriptions
 - Non-empty, ≤1,024 chars, no XML tags, always third person ("Processes Excel files…", not "I can…" or "You can…"). [sbp-yaml, sbp-descriptions]
 - State what it does and when to use it, with specific key terms; key use case first. Claude Code truncates `description` + `when_to_use` at 1,536 chars in listings. [sbp-descriptions, sk-frontmatter]
+- Angle brackets in `description` show as `&lt;` and `&gt;` in the skill listing. [sk-frontmatter]
 
 ## Body
 - Assume Claude is already smart; justify every paragraph's token cost. [sbp-concise]

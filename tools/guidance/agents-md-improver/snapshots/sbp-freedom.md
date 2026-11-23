@@ -1,6 +1,6 @@
 ### Set appropriate degrees of freedom
 
-Match the level of specificity to the task's fragility and variability.
+Match the level of specificity to the task’s fragility and variability.
 
 **High freedom** (text-based instructions):
 
@@ -68,5 +68,5 @@ Do not modify the command or add additional flags.
 
 **Analogy:** Think of Claude as a robot exploring a path:
 
-* **Narrow bridge with cliffs on both sides:** There's only one safe way forward. Provide specific guardrails and exact instructions (low freedom). Example: database migrations that must run in exact sequence.
+* **Narrow bridge with cliffs on both sides:** There’s only one safe way forward. Provide specific guardrails and exact instructions (low freedom). Example: database migrations that must run in exact sequence.
 * **Open field with no hazards:** Many paths lead to success. Give general direction and trust Claude to find the best route (high freedom). Example: code reviews where context determines the best approach.
